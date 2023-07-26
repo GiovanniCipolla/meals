@@ -7,7 +7,7 @@ enum Filter {
   lactoseFree,
   vegan,
   vegetarian,
-  }
+}
 
 class FiltersScreen extends StatefulWidget {
   const FiltersScreen({super.key, required this.currentFilters});
@@ -21,7 +21,6 @@ class FiltersScreen extends StatefulWidget {
 }
 
 class _FilterScreen extends State<FiltersScreen> {
-
   var _glutenFreeFilterSet = false;
   var _lactoseFreeFilterSet = false;
   var _veganFreeFilterSet = false;
@@ -55,13 +54,13 @@ class _FilterScreen extends State<FiltersScreen> {
       }),
       body: WillPopScope(
         onWillPop: () async {
-          Navigator.pop(context,{
+          Navigator.pop(context, {
             Filter.glutenFree: _glutenFreeFilterSet,
             Filter.lactoseFree: _lactoseFreeFilterSet,
             Filter.vegan: _veganFreeFilterSet,
             Filter.vegetarian: _vegetarianFreeFilterSet,
           });
-          return false;  // false perchè non vogliamo tornare indietro , gia lo facciamo manualmente
+          return false; // false perchè non vogliamo tornare indietro , gia lo facciamo manualmente
         },
         child: Column(
           children: [
@@ -119,7 +118,7 @@ class _FilterScreen extends State<FiltersScreen> {
                 right: 22,
               ),
             ),
-             SwitchListTile(
+            SwitchListTile(
               value: _vegetarianFreeFilterSet,
               onChanged: (isChecked) {
                 setState(
@@ -146,7 +145,7 @@ class _FilterScreen extends State<FiltersScreen> {
                 right: 22,
               ),
             ),
-             SwitchListTile(
+            SwitchListTile(
               value: _veganFreeFilterSet,
               onChanged: (isChecked) {
                 setState(
@@ -173,8 +172,6 @@ class _FilterScreen extends State<FiltersScreen> {
                 right: 22,
               ),
             ),
-            
-      
           ],
         ),
       ),
