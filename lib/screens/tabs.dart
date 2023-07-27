@@ -3,17 +3,17 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meals/screens/categories.dart';
 import 'package:meals/widgets/main_drawer.dart';
 import '../providers/filter_provider.dart';
-import '../providers/meals_provider.dart';
 import 'filters.dart';
 import 'meals.dart';
 import 'package:meals/providers/favorites_provider.dart';
 
 const kInitianlFilter = {
-    Filter.glutenFree: false,
-    Filter.lactoseFree: false,
-    Filter.vegetarian: false,
-    Filter.vegan: false,
-  };
+  Filter.glutenFree: false,
+  Filter.lactoseFree: false,
+  Filter.vegetarian: false,
+  Filter.vegan: false,
+};
+
 class TabsScreen extends ConsumerStatefulWidget {
   const TabsScreen({Key? key}) : super(key: key);
 
@@ -26,12 +26,12 @@ class TabsScreen extends ConsumerStatefulWidget {
 class _TabsScreenState extends ConsumerState<TabsScreen> {
   int _selectedPageIndex = 0;
 
-
-
   void _selectPage(int index) {
-    setState(() {
-      _selectedPageIndex = index;
-    });
+    setState(
+      () {
+        _selectedPageIndex = index;
+      },
+    );
   }
 
   void _setScreen(String identifier) async {
@@ -41,7 +41,7 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
       // visto che abbiamo sviluppato noi sappiamo che tipo ci ritorna, e lo mettiamo nei generics del push
       // ovviamente dobbiamo configurare anche il pop nella pagina dove si va e
       // deve essere tutto asyncrono
-      final result = await Navigator.push<Map<Filter, bool>>(
+      await Navigator.push<Map<Filter, bool>>(
         context,
         MaterialPageRoute(
           builder: (ctx) => const FiltersScreen(),
@@ -52,30 +52,10 @@ class _TabsScreenState extends ConsumerState<TabsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final availableMeals = ref.watch(filteredMealsProvider);
 
-    final meals = ref.watch(mealsProvider);
-
-
-   final availableMeals = meals.where((meal) {
-    final activeFilters = ref.watch(filtersProvider);
-    if(activeFilters[Filter.glutenFree]! && !meal.isGlutenFree){
-      return false;
-    }
-    if(activeFilters[Filter.lactoseFree]! && !meal.isLactoseFree){
-      return false;
-    }
-    if(activeFilters[Filter.vegetarian]! && !meal.isVegetarian){
-      return false;
-    }
-    if(activeFilters[Filter.vegan]! && !meal.isVegan){
-      return false;
-    }
-    return true;
-   }).toList();
-
-    
     Widget activePage = CategoriesScreen(
-       avaibleMeals: availableMeals,
+      avaibleMeals: availableMeals,
     );
 
     var activePageTitle = 'Categories';
